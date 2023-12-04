@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Product = require("./models/Product");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const axios = require("axios");
 require("dotenv").config();
 const cors = require("cors");
@@ -41,7 +42,19 @@ async function sendToSlack(webhookUrl, data) {
   .catch(error => {
     console.log(`Error sending message to slack: ${error}`);
   });
-}
+};
+
+//Stripe Payment Intent testing
+app.post('/create-intent', async (req, res) => {
+  console.log(req.body)
+  const intent = await stripe.paymentIntents.create({
+    amount: 1099,
+    currency: 'usd',
+    // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+    automatic_payment_methods: {enabled: true},
+  });
+  res.json({client_secret: intent.client_secret});
+});
 
 app.get("/products", async (req, res) => {
   try {
@@ -76,6 +89,7 @@ app.put("/product/:_id", async (req, res) => {
   }
 });
 
+
 app.delete("/product/:_id", async (req, res) => {
   const { _id } = req.params;
   try {
@@ -90,8 +104,8 @@ app.delete("/product/:_id", async (req, res) => {
 mongoose
   .connect(mongoURI)
   .then(() => {
-    console.log("connected to Mongo!, and app listening on port 3000, Ready to go!");
-    app.listen(3000);
+    console.log("connected to Mongo!, and app listening on port 3500, Ready to go!");
+    app.listen(3500);
     
   })
   .catch((error) => {
