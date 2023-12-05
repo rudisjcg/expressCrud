@@ -5,8 +5,10 @@
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
+    "helmet": "^7.1.0",
     "mongodb": "^6.1.0",
     "mongoose": "^7.5.2",
+    "morgan": "^1.10.0",
     "stripe": "^14.7.0"
   },
   "devDependencies": {
@@ -14,9 +16,11 @@
   },
   "name": "expresscc",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
+  "main": "server.js",
   "scripts": {
     "devStart": "nodemon server.js",
+    "vercel-build": "echo hello",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
