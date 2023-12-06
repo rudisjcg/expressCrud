@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
+import serverless from 'serverless-http';
 import { notFound, errorHandler } from './middlewares.js';
 import api from './api/index.js';
 dotenv.config();
@@ -34,4 +35,4 @@ app.use('/api/', api);
 app.use(notFound);
 app.use(errorHandler);
 
-export default app;
+export default serverless(app);
